@@ -1,0 +1,26 @@
+[
+  {
+    "id": 1,
+    "priority": 1,
+    "action": { "type": "block" },
+    "condition": {
+      "requestDomains": [
+        "4tube.com", "adultfriendfinder.com", "beeg.com", "brazzers.com",
+        "chaturbate.com", "clips4sale.com", "eporner.com", "erome.com",
+        "fapello.com", "fansly.com", "faphouse.com", "hclips.com",
+        "hentai-foundry.com", "hentaifox.com", "hentaihaven.xxx", "imagefap.com",
+        "iwara.tv", "jizzbunker.com", "joysporn.com", "literotica.com",
+        "livejasmin.com", "manyvids.com", "motherless.com", "myfreecams.com",
+        "nhentai.net", "nudostar.com", "onlyfans.com", "porn.com", "porndig.com",
+        "pornhat.com", "pornhub.com", "pornhub.org", "pornhubpremium.com",
+        "pornmd.com", "pornpics.com", "pornpros.com", "pornrabbit.com",
+        "porntrex.com", "redgifs.com", "redtube.com", "rule34.xxx", "rule34video.com",
+        "sex.com", "spankbang.com", "stripchat.com", "theporndude.com",
+        "thumbzilla.com", "tnaflix.com", "tube8.com", "txxx.com",
+        "xhamster.com", "xhamsterlive.com", "xnxx.com", "xvideos.com",
+        "xvideos.red", "youjizz.com", "youporngay.com", "youporn.com"
+      ],
+      "resourceTypes": ["main_frame", "sub_frame", "image", "media", "object", "xmlhttprequest", "other"]
+    }
+  }
+]

@@ -1,0 +1,27 @@
+{
+  "manifest_version": 3,
+  "name": "Strict Focus Mode",
+  "version": "12.3",
+  "description": "Timed social passes, YouTube recommendation waits, and an adult-content filter.",
+  "permissions": ["storage", "tabs", "alarms", "declarativeNetRequest"],
+  "declarative_net_request": {
+    "rule_resources": [
+      { "id": "adult_sites", "enabled": true, "path": "adult-sites.json" }
+    ]
+  },
+  "action": {
+    "default_popup": "popup.html"
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content-filter.js", "defaults.js", "policy.js", "social.js", "content.js"],
+      "css": ["styles.css"],
+      "run_at": "document_start",
+      "all_frames": true
+    }
+  ]
+}

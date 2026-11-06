@@ -1,0 +1,297 @@
+/* =====================================================================
+   Strict Focus Mode
+   Every rule is scoped behind a html.focus-* class, so this stylesheet is
+   inert on any page the content script has not opted in.
+   ===================================================================== */
+
+/* ---------------------------------------------------- RECOMMENDATIONS --- */
+/* The masthead, the search box and the search results page stay untouched. */
+
+html.focus-hide-recs ytd-browse[page-subtype="home"],
+html.focus-hide-recs ytd-browse[page-subtype="trending"],
+html.focus-hide-recs ytd-feed-filter-chip-bar-renderer,
+html.focus-hide-recs yt-related-chip-cloud-renderer,
+
+/* watch page sidebar */
+html.focus-hide-recs #secondary.ytd-watch-flexy,
+html.focus-hide-recs ytd-watch-next-secondary-results-renderer,
+html.focus-hide-recs #related,
+html.focus-hide-recs ytd-compact-video-renderer,
+
+/* in-player suggestions */
+html.focus-hide-recs .ytp-endscreen-content,
+html.focus-hide-recs .ytp-ce-element,
+html.focus-hide-recs .ytp-pause-overlay,
+html.focus-hide-recs .ytp-suggestion-set,
+html.focus-hide-recs .ytp-autonav-endscreen-upnext-container,
+
+/* the padding shelves inside search results, but not the results themselves */
+html.focus-hide-recs ytd-search ytd-shelf-renderer,
+html.focus-hide-recs ytd-search ytd-horizontal-card-list-renderer,
+html.focus-hide-recs ytd-search ytd-universal-watch-card-renderer {
+  display: none !important;
+}
+
+/* Let the video take the full width once the sidebar is gone. */
+html.focus-hide-recs #primary.ytd-watch-flexy {
+  max-width: 100% !important;
+  margin: 0 auto !important;
+}
+
+/* --------------------------------------------------------- COMMENTS ----- */
+html.focus-hide-comments ytd-comments,
+html.focus-hide-comments #comments {
+  display: none !important;
+}
+
+/* ----------------------------------------------------------- SHORTS ----- */
+html.focus-hide-shorts ytd-reel-shelf-renderer,
+html.focus-hide-shorts ytd-rich-shelf-renderer[is-shorts],
+html.focus-hide-shorts ytd-rich-section-renderer:has(ytd-rich-shelf-renderer[is-shorts]),
+html.focus-hide-shorts ytd-video-renderer:has(a[href^="/shorts/"]),
+html.focus-hide-shorts ytd-guide-entry-renderer:has(a[title="Shorts"]),
+html.focus-hide-shorts ytd-mini-guide-entry-renderer[aria-label="Shorts"] {
+  display: none !important;
+}
+
+/* ---------------------------------------------------- SEARCH-ONLY MODE -- */
+/* Strips the browsing chrome so the search box is the only way in. */
+html.focus-search-only #guide,
+html.focus-search-only tp-yt-app-drawer#guide,
+html.focus-search-only ytd-mini-guide-renderer,
+html.focus-search-only #guide-button,
+html.focus-search-only ytd-notification-topbar-button-renderer,
+html.focus-search-only ytd-topbar-menu-button-renderer:has(a[href*="upload"]),
+html.focus-search-only #voice-search-button {
+  display: none !important;
+}
+
+html.focus-search-only ytd-page-manager {
+  margin-left: 0 !important;
+}
+
+/* -------------------------------------------------------- MUSIC MIXES --- */
+html.focus-hide-music ytd-radio-renderer,
+html.focus-hide-music ytd-compact-radio-renderer,
+html.focus-hide-music ytd-video-renderer:has(a[href*="list=RD"]) {
+  display: none !important;
+}
+
+/* --------------------------------------------------------- GRAYSCALE ---- */
+/* Applied to the images and the player rather than to <html>, because a
+   filter on the root element breaks YouTube's fixed-position masthead. */
+html.focus-gray ytd-thumbnail img,
+html.focus-gray yt-image img,
+html.focus-gray ytd-playlist-thumbnail img,
+html.focus-gray .ytp-cued-thumbnail-overlay-image,
+html.focus-gray #movie_player video {
+  filter: grayscale(1) !important;
+}
+
+/* ---------------------------------------------------------- NO THUMBS --- */
+html.focus-no-thumbs ytd-thumbnail img,
+html.focus-no-thumbs ytd-playlist-thumbnail img {
+  opacity: 0 !important;
+}
+
+html.focus-no-thumbs ytd-thumbnail,
+html.focus-no-thumbs ytd-playlist-thumbnail {
+  background: #2b2b2b !important;
+}
+
+/* =====================================================================
+   Injected UI
+   ===================================================================== */
+
+#focus-hud,
+#focus-home,
+#focus-content-block,
+#focus-social {
+  font: 400 14px/1.45 system-ui, "Segoe UI", Roboto, Arial, sans-serif;
+  color: #f1f1f1;
+}
+
+/* ------------------------------------------------------------- the HUD -- */
+#focus-hud {
+  position: fixed;
+  right: 16px;
+  bottom: 16px;
+  z-index: 2147483000;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 6px;
+  pointer-events: none;
+}
+
+#focus-usage {
+  pointer-events: none;
+  background: rgba(20, 20, 20, .85);
+  border: 1px solid #3a3a3a;
+  border-radius: 999px;
+  padding: 4px 12px;
+  font-size: 12px;
+  color: #b9b9b9;
+  letter-spacing: .02em;
+}
+
+#focus-gate {
+  pointer-events: auto;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+  border: 1px solid #3a3a3a;
+  border-radius: 999px;
+  padding: 10px 18px;
+  background: #202020;
+  color: #f1f1f1;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, .45);
+  transition: background .15s, border-color .15s, opacity .15s;
+}
+
+#focus-gate:hover        { background: #2c2c2c; }
+#focus-gate[hidden]      { display: none !important; }
+#focus-gate[data-state="counting"] { background: #3a2a12; border-color: #7a5418; color: #ffcc80; }
+#focus-gate[data-state="open"]     { background: #1d2b1d; border-color: #3f6b3f; color: #b9e4b9; }
+
+/* Alternate YouTube surfaces must not restore the endless feed. */
+html.focus-hide-recs ytm-browse,
+html.focus-hide-recs ytm-item-section-renderer[section-identifier="related-items"],
+html.focus-hide-recs ytmusic-browse-response,
+html.focus-hide-recs ytmusic-player-page #side-panel,
+html.focus-no-autoplay ytd-playlist-panel-renderer,
+html.focus-no-autoplay .ytp-next-button,
+html.focus-no-autoplay .ytp-endscreen-content,
+html.focus-no-autoplay .ytp-ce-element,
+html.focus-no-autoplay .ytp-autonav-endscreen-upnext-container,
+html.focus-hide-shorts ytm-reel-shelf-renderer,
+html.focus-hide-shorts yt-shorts-lockup-view-model,
+html.focus-hide-shorts ytm-shorts-lockup-view-model,
+html.focus-hide-comments ytm-comment-section-renderer {
+  display: none !important;
+}
+
+/* ---------------------------------------------------------- the panels -- */
+#focus-home {
+  position: fixed;
+  inset: 56px 0 0 0;
+  z-index: 2000;
+  background: #0f0f0f;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding-top: 12vh;
+  overflow: auto;
+}
+
+#focus-social,
+#focus-content-block {
+  position: fixed;
+  inset: 0;
+  z-index: 2147483001;
+  background: rgba(8, 8, 8, .93);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+html.focus-filter-blocked body > :not(#focus-content-block),
+[data-focus-filter-hidden] {
+  display: none !important;
+}
+
+html.focus-filter-blocked,
+html.focus-filter-blocked body,
+#focus-content-block {
+  background: #111 !important;
+}
+
+#focus-content-block { z-index: 2147483647; }
+
+.focus-card {
+  width: min(560px, 100%);
+  text-align: center;
+}
+
+.focus-card h1 {
+  font-size: 26px;
+  font-weight: 600;
+  margin: 0 0 8px;
+  color: #f1f1f1;
+}
+
+.focus-card p.focus-sub {
+  margin: 0 0 22px;
+  color: #9b9b9b;
+  font-size: 15px;
+}
+
+.focus-card label {
+  display: block;
+  margin: 0 0 8px;
+  color: #b9b9b9;
+  font-size: 13px;
+}
+
+.focus-card input[type="text"] {
+  width: 100%;
+  box-sizing: border-box;
+  font: inherit;
+  font-size: 16px;
+  padding: 12px 16px;
+  border-radius: 8px;
+  border: 1px solid #3a3a3a;
+  background: #181818;
+  color: #f1f1f1;
+  outline: none;
+}
+
+.focus-card input[type="text"]:focus { border-color: #6f6f6f; }
+
+.focus-row {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  margin-top: 20px;
+  flex-wrap: wrap;
+}
+
+.focus-card button {
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 11px 22px;
+  border-radius: 8px;
+  border: 1px solid transparent;
+  background: #f1f1f1;
+  color: #0f0f0f;
+  min-width: 150px;
+}
+
+.focus-card button:disabled {
+  opacity: .4;
+  cursor: not-allowed;
+}
+
+.focus-card button.ghost {
+  background: transparent;
+  border-color: #3a3a3a;
+  color: #b9b9b9;
+}
+
+.focus-card button.ghost:hover { border-color: #6f6f6f; color: #f1f1f1; }
+
+#focus-home-form {
+  display: flex;
+  gap: 8px;
+}
+
+#focus-home-form button { min-width: 110px; }
+
+#focus-home-usage {
+  margin-top: 18px;
+  font-size: 12px;
+  color: #7a7a7a;
+  letter-spacing: .02em;
+}

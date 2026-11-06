@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  :root { color-scheme: dark; }
+
+  body {
+    width: 268px;
+    max-height: 560px;
+    overflow-y: auto;
+    margin: 0;
+    padding: 14px 16px 16px;
+    background: #141414;
+    color: #f1f1f1;
+    font: 400 13px/1.4 system-ui, "Segoe UI", Roboto, Arial, sans-serif;
+  }
+
+  h1 {
+    font-size: 15px;
+    margin: 0 0 4px;
+    letter-spacing: .01em;
+  }
+
+  #usage {
+    font-size: 11px;
+    color: #8a8a8a;
+    margin-bottom: 14px;
+  }
+
+  .head {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: .09em;
+    color: #7a7a7a;
+    margin: 16px 0 8px;
+    padding-top: 10px;
+    border-top: 1px solid #2a2a2a;
+  }
+
+  .row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    min-height: 26px;
+  }
+
+  .row label { flex: 1; }
+
+  .row input[type="number"] { width: 52px; }
+  .row input[type="time"]   { width: 92px; }
+
+  input[type="number"],
+  input[type="time"],
+  textarea {
+    font: inherit;
+    background: #1f1f1f;
+    color: #f1f1f1;
+    border: 1px solid #3a3a3a;
+    border-radius: 5px;
+    padding: 4px 6px;
+    outline: none;
+  }
+
+  input:focus, textarea:focus { border-color: #6f6f6f; }
+
+  textarea {
+    width: 100%;
+    box-sizing: border-box;
+    height: 46px;
+    resize: vertical;
+    margin-top: 6px;
+  }
+
+  .suffix { color: #7a7a7a; font-size: 11px; width: 14px; }
+
+  .note {
+    font-size: 11px;
+    line-height: 1.35;
+    color: #7a7a7a;
+    margin: -2px 0 9px;
+  }
+
+  .pass {
+    font-size: 10px;
+    color: #e0a33a;
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+  }
+
+  input[type="checkbox"] {
+    accent-color: #ff4d4d;
+    width: 15px;
+    height: 15px;
+    margin: 0;
+    cursor: pointer;
+  }
+
+  fieldset { border: 0; margin: 0; padding: 0; }
+  fieldset:disabled { opacity: .45; }
+
+  .lock {
+    margin-top: 16px;
+    padding: 12px;
+    border-radius: 8px;
+    background: #241414;
+    border: 1px solid #4a2020;
+    text-align: center;
+  }
+
+  .lock h2 { font-size: 12px; margin: 0 0 9px; color: #ff6b6b; letter-spacing: .04em; text-transform: uppercase; }
+
+  #lockTime { width: 58px; text-align: center; }
+
+  #startLock {
+    font: inherit;
+    font-weight: 700;
+    cursor: pointer;
+    margin-left: 6px;
+    padding: 5px 12px;
+    border: 0;
+    border-radius: 5px;
+    background: #cc2222;
+    color: #fff;
+  }
+
+  #startLock:hover { background: #aa1a1a; }
+
+  .lock small { display: block; margin-top: 8px; color: #8a6a6a; font-size: 10px; }
+
+  #countdown { font-size: 20px; font-weight: 700; color: #ff6b6b; margin-top: 4px; }
+  #focus-plan { margin: 12px 0; }
+  #focusTask { height: 64px; }
+  #quickFocus { width: 100%; padding: 11px; margin-top: 8px; border: 0; border-radius: 6px; background: #b8ebcf; color: #14271d; font: 600 13px system-ui; cursor: pointer; }
+  #quickFocus:disabled { opacity: .45; cursor: default; }
+  #endFocus { margin-top: 8px; width: 100%; padding: 8px; cursor: pointer; }
+</style>
+</head>
+<body>
+  <h1>Strict Focus Mode</h1>
+  <div id="usage"></div>
+  <div id="focus-plan">
+    <label for="focusTask">What will you work on instead?</label>
+    <textarea id="focusTask" maxlength="240" placeholder="One concrete next step, e.g. write the first paragraph"></textarea>
+    <button id="quickFocus" disabled>Start 25 minutes of focus</button>
+    <button id="endFocus" hidden>End focus session</button>
+    <p class="note" style="margin-top:8px">Keep your next step in view and lock settings during focus. YouTube stays available; limited sites use timed checks.</p>
+  </div>
+
+  <fieldset id="settings"></fieldset>
+
+  <div class="lock">
+    <h2>Focus session</h2>
+    <div id="lock-setup">
+      <input type="number" id="lockTime" aria-label="Focus duration in minutes" value="25" min="1" max="1440">
+      <button id="startLock">START FOCUS</button>
+      <small>You can end a focus session above if you need to adjust settings.</small>
+    </div>
+    <div id="lock-active" hidden>
+      <div>Focus time remaining</div>
+      <div id="countdown"></div>
+    </div>
+  </div>
+
+  <script src="defaults.js"></script>
+  <script src="popup.js"></script>
+</body>
+</html>
